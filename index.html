@@ -1,18 +1,12 @@
 // Haunted Locations Mobile App - Complete Implementation
 // This is a comprehensive React Native application for mapping haunted locations
 
-import React, { useState, useEffect, useContext, createContext } from 'react';
-
-// Context for global state management
-const AppContext = createContext();
-
-// Main App Component
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('home');
-  const [user, setUser] = useState(null);
-  const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [filters, setFilters] = useState({
+  const [currentScreen, setCurrentScreen] = React.useState('home');
+  const [user, setUser] = React.useState(null);
+  const [locations, setLocations] = React.useState([]);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  const [filters, setFilters] = React.useState({
     state: '',
     city: '',
     type: '',
@@ -77,7 +71,7 @@ function App() {
     }
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLocations(mockLocations);
   }, []);
 
@@ -141,6 +135,7 @@ function App() {
             </div>
           </div>
         </div>
+
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <button
@@ -158,6 +153,7 @@ function App() {
             <div className="font-semibold">Random Hunt</div>
           </button>
         </div>
+
         {/* Featured Locations */}
         <div className="mb-6">
           <h3 className="text-lg font-bold text-pink-400 mb-3">Featured Haunted Locations</h3>
@@ -187,6 +183,7 @@ function App() {
   const MapScreen = () => (
     <div className="bg-gray-900 min-h-screen text-white">
       <Header title="🗺️ Haunted Map" showBack />
+      
       {/* Filters */}
       <div className="p-4 bg-black border-b border-gray-700">
         <div className="grid grid-cols-2 gap-2 mb-3">
@@ -213,6 +210,7 @@ function App() {
           </select>
         </div>
       </div>
+
       {/* Map Placeholder */}
       <div className="relative h-96 bg-gray-800 m-4 rounded-lg border border-pink-500">
         <div className="absolute inset-0 flex items-center justify-center">
@@ -227,6 +225,7 @@ function App() {
         <div className="absolute top-32 left-32 text-red-500 text-2xl cursor-pointer" title="Waverly Hills">📍</div>
         <div className="absolute top-28 left-28 text-red-500 text-2xl cursor-pointer" title="Bachelor's Grove">📍</div>
       </div>
+
       {/* Location List */}
       <div className="p-4">
         <h3 className="text-lg font-bold text-pink-400 mb-3">Nearby Locations</h3>
@@ -259,6 +258,7 @@ function App() {
   // Location Detail Screen
   const LocationDetailScreen = () => {
     if (!selectedLocation) return null;
+
     return (
       <div className="bg-gray-900 min-h-screen text-white">
         <Header title={selectedLocation.name} showBack />
@@ -269,6 +269,7 @@ function App() {
             alt={selectedLocation.name}
             className="w-full h-48 object-cover rounded-lg mb-4 border border-pink-500"
           />
+          
           {/* Basic Info */}
           <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
             <div className="flex justify-between items-start mb-3">
@@ -287,11 +288,13 @@ function App() {
               <span className="bg-yellow-600 px-2 py-1 rounded text-xs">{selectedLocation.popularity}</span>
             </div>
           </div>
+          
           {/* History */}
           <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
             <h3 className="text-lg font-bold text-pink-400 mb-2">📜 History</h3>
             <p className="text-gray-300">{selectedLocation.history}</p>
           </div>
+          
           {/* Paranormal Activity */}
           <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
             <h3 className="text-lg font-bold text-pink-400 mb-2">👻 Reported Sightings</h3>
@@ -302,6 +305,7 @@ function App() {
               </div>
             ))}
           </div>
+          
           {/* Booking Section */}
           {selectedLocation.bookingAvailable && (
             <div className="bg-black rounded-lg p-4 mb-4 border border-green-500">
@@ -315,6 +319,7 @@ function App() {
               </div>
             </div>
           )}
+          
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-4 mb-6">
             <button className="bg-pink-600 hover:bg-pink-700 p-3 rounded-lg font-semibold transition-colors">
@@ -331,12 +336,14 @@ function App() {
 
   // Randomizer Screen
   const RandomizerScreen = () => {
-    const [distance, setDistance] = useState(50);
-    const [randomLocation, setRandomLocation] = useState(null);
+    const [distance, setDistance] = React.useState(50);
+    const [randomLocation, setRandomLocation] = React.useState(null);
+
     const getRandomLocation = () => {
       const randomIndex = Math.floor(Math.random() * locations.length);
       setRandomLocation(locations[randomIndex]);
     };
+
     return (
       <div className="bg-gray-900 min-h-screen text-white">
         <Header title="🎲 Random Hunt" showBack />
@@ -362,6 +369,7 @@ function App() {
               🎲 Find Random Location
             </button>
           </div>
+          
           {randomLocation && (
             <div className="bg-black rounded-lg p-4 border border-pink-500">
               <h3 className="text-lg font-bold text-pink-400 mb-2">Your Random Destination</h3>
@@ -410,6 +418,7 @@ function App() {
             </div>
           </div>
         </div>
+        
         {/* Badges */}
         <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
           <h3 className="text-lg font-bold text-pink-400 mb-3">🏆 Your Badges</h3>
@@ -419,6 +428,7 @@ function App() {
             <span className="bg-green-600 px-3 py-1 rounded-full text-sm">⭐ Top Reviewer</span>
           </div>
         </div>
+        
         {/* Nearby Hunters */}
         <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
           <h3 className="text-lg font-bold text-pink-400 mb-3">👥 Nearby Ghost Hunters</h3>
@@ -438,6 +448,7 @@ function App() {
             </div>
           ))}
         </div>
+        
         {/* Forums */}
         <div className="bg-black rounded-lg p-4 border border-gray-700">
           <h3 className="text-lg font-bold text-pink-400 mb-3">💬 Recent Forum Posts</h3>
@@ -481,6 +492,7 @@ function App() {
             </button>
           </div>
         </div>
+        
         {/* Leaderboard */}
         <div className="bg-black rounded-lg p-4 mb-4 border border-yellow-500">
           <h3 className="text-lg font-bold text-yellow-400 mb-3">🏆 Top Contributors</h3>
@@ -502,6 +514,7 @@ function App() {
             </div>
           ))}
         </div>
+        
         {/* Recent Evidence */}
         <div className="bg-black rounded-lg p-4 border border-gray-700">
           <h3 className="text-lg font-bold text-pink-400 mb-3">🔍 Recent Evidence</h3>
@@ -556,6 +569,7 @@ function App() {
             </div>
           </div>
         </div>
+        
         {/* Settings */}
         <div className="bg-black rounded-lg p-4 mb-4 border border-gray-700">
           <h3 className="text-lg font-bold text-pink-400 mb-3">⚙️ Settings</h3>
@@ -575,6 +589,7 @@ function App() {
             </div>
           ))}
         </div>
+        
         {/* Premium Upgrade */}
         <div className="bg-gradient-to-r from-pink-600 to-yellow-600 rounded-lg p-4 mb-4">
           <h3 className="text-lg font-bold text-white mb-2">✨ Upgrade to Premium</h3>
@@ -583,6 +598,7 @@ function App() {
             Upgrade Now - $9.99/month
           </button>
         </div>
+        
         {/* Sign Out */}
         <button className="w-full bg-red-600 hover:bg-red-700 p-3 rounded-lg font-semibold transition-colors">
           🚪 Sign Out
@@ -606,12 +622,10 @@ function App() {
   };
 
   return (
-    <AppContext.Provider value={{ user, setUser, locations, setLocations }}>
-      <div className="max-w-md mx-auto bg-gray-900 min-h-screen relative">
-        {renderScreen()}
-        <Navigation />
-        <div className="h-16"></div> {/* Spacer for navigation */}
-      </div>
-    </AppContext.Provider>
+    <div className="max-w-md mx-auto bg-gray-900 min-h-screen relative">
+      {renderScreen()}
+      <Navigation />
+      <div className="h-16"></div> {/* Spacer for navigation */}
+    </div>
   );
 }
