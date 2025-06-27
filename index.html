@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyEntity AI – Detailed Paranormal Case Builder</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg,#070707 0%,#141425 50%,#101935 100%);
+      color:#e5e5e7; min-height:100vh; overflow-x:hidden;
+    }
+    a{color:#00ffff}
+    .container{max-width:1200px;margin:0 auto;padding:25px}
+    h1,h2,h3{font-weight:600}
+    .header{text-align:center;margin-bottom:45px;position:relative}
+    .header::before{
+      content:"";position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+      width:110px;height:2px;background:linear-gradient(90deg,transparent,#00ffff,transparent)
+    }
+    .header h1{
+      font-size:2.8rem;
+      background:linear-gradient(45deg,#00ffff,#ff00ff,#ffff00);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      text-shadow:0 0 32px rgba(0,255,255,.35);
+      position:relative;
+      display:inline-block;
+    }
+    .ghost-logo {
+      position: relative;
+      display: inline-block;
+      width: 64px;
+      height: 64px;
+      margin-right: 15px;
+      vertical-align: middle;
+    }
+    .ghost-logo img {
+      width: 64px;
+      height: 64px;
+      filter: drop-shadow(0 0 16px #00ffff);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.2);
+    }
+    /* ---------- Case Info Section ---------- */
+    .case-info {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(0,255,255,.18);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 35px;
+      backdrop-filter: blur(10px);
+    }
+    .case-info h3 {
+      color: #00ffff;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+    .case-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      color: #a0a0a0;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    .form-input {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #e5e5e7;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 10px rgba(0,255,255,.3);
+    }
+    .form-input::placeholder {
+      color: #666;
+    }
+    .upload-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+    .card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(0,255,255,.18);
+      border-radius:16px;padding:32px;text-align:center;backdrop-filter:blur(10px);
+      position:relative;overflow:hidden;transition:.35s all
+    }
+    .card::before{content:"";position:absolute;inset:0;left:-100%;background:linear-gradient(90deg,transparent,rgba(0,255,255,.15),transparent);transition:.6s}
+    .card:hover::before{left:100%}
+    .card:hover{transform:translateY(-6px);border-color:#00ffff;box-shadow:0 0 34px rgba(0,255,255,.25)}
+    .icon{font-size:4rem;color:#00ffff;margin-bottom:20px;text-shadow:0 0 22px rgba(0,255,255,.48)}
+    .card h3{font-size:1.4rem;margin-bottom:10px}
+    .card p{font-size:.95rem;color:#a0a0a0;margin-bottom:20px}
+    .file-input{display:none}
+    .btn{
+      background:linear-gradient(45deg,#00ffff,#0080ff);
+      border:none;border-radius:24px;padding:13px 28px;color:#fff;font-size:.95rem;cursor:pointer;
+      transition:.3s;position:relative;overflow:hidden
+    }
+    .btn:hover{transform:scale(1.05);box-shadow:0 0 18px rgba(0,255,255,.4)}
+    .btn:active{transform:scale(.94)}
+    .bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;margin:22px 0 8px;display:none}
+    .fill{height:100%;background:linear-gradient(90deg,#00ffff,#ff00ff);width:0;border-radius:3px}
+    .spinner{border:3px solid rgba(0,255,255,.3);border-top:3px solid #00ffff;border-radius:50%;width:32px;height:32px;margin:18px auto;animation:spin 1s linear infinite;display:none}
+    @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+    .results{display:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;margin-top:35px}
+    .results-header{display:flex;align-items:center;gap:15px;margin-bottom:25px}
+    .results-header i{font-size:2rem;color:#ff6b6b;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .status-indicator{width:11px;height:11px;border-radius:50%;display:inline-block;margin-left:auto;margin-right:8px}
+    .scan{background:#ffff00;animation:blink 1.5s infinite}
+    .done{background:#00ff00}
+    .err{background:#ff0000}
+    @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:.3}}
+    .report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:15px}
+    .panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;position:relative}
+    .panel h4{margin-bottom:12px;font-size:1.1rem;color:#00ffff}
+    .tag{display:inline-block;background:rgba(0,255,255,.15);padding:2px 8px;border-radius:8px;font-size:.78rem;margin-right:6px;margin-bottom:4px}
+    .anomaly{background:rgba(255,107,107,.12);border-left:3px solid #ff6b6b;padding:10px 12px;border-radius:6px;margin:8px 0;transition:.25s}
+    .anomaly:hover{background:rgba(255,107,107,.2);transform:translateX(4px)}
+    .anomaly .conf{float:right;font-size:.75rem;background:rgba(255,255,255,.08);padding:0 6px;border-radius:6px}
+    .textarea{width:100%;min-height:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:#e5e5e7;border-radius:10px;padding:12px;font-size:.9rem;resize:vertical}
+    .copy-btn{margin-top:10px;background:#ff6b6b}
+    .footer{text-align:center;margin-top:55px;padding:18px 0;border-top:1px solid rgba(255,255,255,.08);color:#6e6e6e;font-size:.9rem}
+    @media(max-width:680px){
+      .header h1{font-size:2.2rem}
+      .case-form{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>
+        <span class="ghost-logo">
+          <img src="entitypic.webp" alt="Ghost Logo" />
+          <!-- Neon Halo -->
+          <svg style="position:absolute;top:-18px;left:8px;pointer-events:none;" width="48" height="24">
+            <ellipse cx="24" cy="12" rx="18" ry="6" fill="none" stroke="#ffff00" stroke-width="3" filter="url(#halo-glow)" />
+            <defs>
+              <filter id="halo-glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+          <!-- Neon Devil Horns -->
+          <svg style="position:absolute;top:-6px;left:0;pointer-events:none;" width="64" height="24">
+            <path d="M10,24 Q12,8 20,12" stroke="#ff00ff" stroke-width="4" fill="none" filter="url(#horn-glow)" />
+            <path d="M54,24 Q52,8 44,12" stroke="#ff00ff" stroke-width="4" fill="none" filter="url(#horn-glow)" />
+            <defs>
+              <filter id="horn-glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </span>
+        MyEntity AI
+      </h1>
+      <p>Advanced Paranormal Evidence Analyzer & Case File Builder</p>
+    </header>
+    <section class="case-info">
+      <h3><i class="fas fa-folder-open"></i> Case Information</h3>
+      <div class="case-form">
+        <div class="form-group">
+          <label for="caseName">Case Name</label>
+          <input type="text" id="caseName" class="form-input" placeholder="e.g., Haunted Manor Investigation">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" class="form-input" placeholder="e.g., 123 Elm Street, Salem, MA">
+        </div>
+        <div class="form-group">
+          <label for="investigationDate">Investigation Date</label>
+          <input type="date" id="investigationDate" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="investigationTime">Investigation Time</label>
+          <input type="time" id="investigationTime" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="teamLead">Team Lead</label>
+          <input type="text" id="teamLead" class="form-input" placeholder="Lead Investigator Name">
+        </div>
+        <div class="form-group">
+          <label for="teamMembers">Team Members</label>
+          <input type="text" id="teamMembers" class="form-input" placeholder="Comma-separated names">
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="caseNotes">Initial Notes</label>
+          <textarea id="caseNotes" class="form-input" rows="3" placeholder="Brief description of the case, reported phenomena, etc."></textarea>
+        </div>
+      </div>
+    </section>
+    <section class="upload-grid">
+      <div class="card">
+        <div class="icon"><i class="fas fa-microphone"></i></div>
+        <h3>Audio Evidence</h3>
+        <p>EVPs, unexplained sounds, whispers</p>
+        <input id="audioFile" class="file-input" type="file" accept="audio/*">
+        <button class="btn" onclick="document.getElementById('audioFile').click()"><i class="fas fa-upload"></i> Select Audio</button>
+        <div class="bar" id="audioBar"><div class="fill"></div></div>
+        <div class="spinner" id="audioSpin"></div>
+      </div>
+      <div class="card">
+        <div class="icon"><i class="fas fa-video"></i></div>
+        <h3>Video Evidence</h3>
+        <p>Apparitions, shadows, light anomalies</p>
+        <input id="videoFile" class="file-input" type="file" accept="video/*">
+        <button class="btn" onclick="document.getElementById('videoFile').click()"><i class="fas fa-upload"></i> Select Video</button>
+        <div class="bar" id="videoBar"><div class="fill"></div></div>
+        <div class="spinner" id="videoSpin"></div>
+      </div>
+    </section>
+    <section class="results" id="results">
+      <div class="results-header">
+        <i class="fas fa-file-alt"></i>
+        <h2>Case File Report</h2>
+        <span id="statusDot" class="status-indicator scan"></span>
+        <span id="statusText">Scanning evidence…</span>
+      </div>
+      <div class="report-grid">
+        <div class="panel" style="grid-column: 1 / -1;">
+          <h4>Case Details</h4>
+          <div id="caseDetails"></div>
+        </div>
+        <div class="panel">
+          <h4>Evidence Meta</h4>
+          <p id="metaContent"></p>
+        </div>
+        <div class="panel">
+          <h4>Keyword / Name Counts</h4>
+          <div id="wordCounts"></div>
+        </div>
+        <div class="panel" style="grid-column:1/-1">
+          <h4>Anomalies Detected</h4>
+          <div id="anomalyList"></div>
+        </div>
+        <div class="panel" style="grid-column:1/-1">
+          <h4>AI Narrative Summary</h4>
+          <textarea readonly id="narrative" class="textarea"></textarea>
+          <button class="btn copy-btn" onclick="copyNarrative()"><i class="fas fa-copy"></i> Copy Report</button>
+          <button class="btn copy-btn" onclick="exportCase()" style="margin-left: 10px;"><i class="fas fa-download"></i> Export Case</button>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      © 2025 MyEntity AI – All tools are speculative & for investigative research only.
+    </footer>
+  </div>
+<script>
+const moonPhases=["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous","Full Moon","Waning Gibbous","Last Quarter","Waning Crescent"]
+function getRandom(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function randInt(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+document.addEventListener('DOMContentLoaded', function() {
+  const now = new Date();
+  document.getElementById('investigationDate').value = now.toISOString().split('T')[0];
+  document.getElementById('investigationTime').value = now.toTimeString().slice(0,5);
+});
+function getCaseInfo() {
+  return {
+    caseName: document.getElementById('caseName').value || 'Untitled Case',
+    location: document.getElementById('location').value || 'Unknown Location',
+    investigationDate: document.getElementById('investigationDate').value,
+    investigationTime: document.getElementById('investigationTime').value,
+    teamLead: document.getElementById('teamLead').value || 'Unknown',
+    teamMembers: document.getElementById('teamMembers').value || 'None listed',
+    caseNotes: document.getElementById('caseNotes').value || 'No initial notes provided'
+  };
+}
+function mockAnalyze(type){
+  const now=new Date();
+  const caseInfo = getCaseInfo();
+  const result={
+    evidence_type:type,
+    file_name: type+"_sample."+(type==="audio"?"wav":"mp4"),
+    analysis_time: now.toISOString(),
+    moon_phase: getRandom(moonPhases),
+    case_info: caseInfo,
+    word_counts:{"john":randInt(0,5),"help":randInt(0,3),"leave":randInt(0,2),"mary":randInt(0,4),"cold":randInt(0,3)},
+    anomalies:[],
+    ai_narrative:"",
+  };
+  const anomalyTemplates={
+    audio:[
+      "Disembodied whisper \"help me\" detected at 15.7 dB above baseline",
+      "High-energy frequency spike at 528Hz lasting 2.3 seconds",
+      "Unexplained EVP saying \"John\" with 89% voice recognition confidence",
+      "Temperature drop correlation with audio spike detected",
+      "Electromagnetic interference pattern suggests paranormal activity"
+    ],
+    video:[
+      "Shadow figure crosses corridor at 23fps, height estimated 6'2\"",
+      "Bright orb materializes then vanishes, luminosity 340% above ambient",
+      "Temperature anomaly (FLIR) detected: -12°F cold spot",
+      "Motion detected with no visible source in frame 234-267",
+      "Unexplained light reflection pattern inconsistent with environment"
+    ]
+  };
+  const count=randInt(3,6);
+  for(let i=0;i<count;i++){
+    result.anomalies.push({
+      timestamp:type==="audio"?`${randInt(0,9)}:${randInt(10,59)}`:`Frame ${randInt(120,1800)}`,
+      description:getRandom(anomalyTemplates[type]),
+      confidence: randInt(72,96)
+    })
+  }
+  const totalWords=Object.entries(result.word_counts).filter(([,c])=>c>0)
+    .map(([w,c])=>`"${w}" (${c}x)`).join(", ") || "no notable keywords";
+  result.ai_narrative=`CASE: ${caseInfo.caseName}\n\n` +
+    `Investigation conducted on ${caseInfo.investigationDate} at ${caseInfo.investigationTime} ` +
+    `at ${caseInfo.location} during a ${result.moon_phase} phase.\n\n` +
+    `Team Lead: ${caseInfo.teamLead}\nTeam Members: ${caseInfo.teamMembers}\n\n` +
+    `EVIDENCE ANALYSIS:\n${type.toUpperCase()} analysis revealed ${result.anomalies.length} significant anomalies. ` +
+    `Keyword analysis detected: ${totalWords}. ` +
+    `Environmental conditions and lunar phase may have contributed to heightened paranormal activity. ` +
+    `Recommend follow-up investigation during similar conditions.\n\n` +
+    `INITIAL NOTES: ${caseInfo.caseNotes}\n\n` +
+    `CONCLUSION: Evidence suggests potential paranormal activity requiring further investigation.`;
+  return new Promise(res=>setTimeout(()=>res(result),2400));
+}
+function startScan(type){
+  document.getElementById("results").style.display="block";
+  document.getElementById("statusDot").className="status-indicator scan";
+  document.getElementById("statusText").textContent=`Analyzing ${type} evidence…`;
+  const bar=document.getElementById(type+"Bar");
+  const fill=bar.querySelector(".fill");
+  const spin=document.getElementById(type+"Spin");
+  bar.style.display="block";spin.style.display="block";
+  let prog=0;
+  const int=setInterval(()=>{
+    prog+=Math.random()*18; if(prog>100) prog=100;
+    fill.style.width=prog+"%";
+    if(prog>=100){clearInterval(int)}
+  },180);
+}
+function endScan(type,data){
+  document.getElementById(type+"Spin").style.display="none";
+  document.getElementById(type+"Bar").style.display="none";
+  const dot=document.getElementById("statusDot");
+  dot.className="status-indicator done";
+  document.getElementById("statusText").textContent="Analysis complete – report ready";
+  document.getElementById("caseDetails").innerHTML=`
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+      <div><strong>Case:</strong> ${data.case_info.caseName}</div>
+      <div><strong>Location:</strong> ${data.case_info.location}</div>
+      <div><strong>Date:</strong> ${data.case_info.investigationDate}</div>
+      <div><strong>Time:</strong> ${data.case_info.investigationTime}</div>
+      <div><strong>Lead:</strong> ${data.case_info.teamLead}</div>
+      <div><strong>Team:</strong> ${data.case_info.teamMembers}</div>
+    </div>
+  `;
+  document.getElementById("metaContent").innerHTML=`
+    <strong>File:</strong> ${data.file_name}<br>
+    <strong>Evidence:</strong> ${data.evidence_type}<br>
+    <strong>Analyzed:</strong> ${new Date(data.analysis_time).toLocaleString()}<br>
+    <strong>Moon Phase:</strong> ${data.moon_phase}
+  `;
+  const wc=document.getElementById("wordCounts");
+  wc.innerHTML="";
+  Object.entries(data.word_counts).forEach(([w,c])=>{
+    const span=document.createElement("span");span.className="tag";span.textContent=`${w}: ${c}`;wc.appendChild(span);
+  });
+  const list=document.getElementById("anomalyList");
+  list.innerHTML="";
+  data.anomalies.forEach(a=>{
+    const div=document.createElement("div");div.className="anomaly";
+    div.innerHTML=`<span>${a.timestamp}</span><span class="conf">${a.confidence}%</span><br>${a.description}`;
+    list.appendChild(div);
+  });
+  document.getElementById("narrative").value=data.ai_narrative;
+}
+function copyNarrative(){
+  const txt=document.getElementById("narrative");txt.select();document.execCommand("copy");alert("Report copied to clipboard");
+}
+function exportCase(){
+  const caseInfo = getCaseInfo();
+  const narrative = document.getElementById("narrative").value;
+  const filename = `${caseInfo.caseName.replace(/[^a-z0-9]/gi, '_')}_${caseInfo.investigationDate}.txt`;
+  const blob = new Blob([narrative], {type: 'text/plain'});
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+["audio","video"].forEach(type=>{
+  document.getElementById(type+"File").addEventListener("change",e=>{
+    if(e.target.files.length){ 
+      startScan(type);
+      mockAnalyze(type).then(r=>endScan(type,r));
+    }
+  })
+})
+</script>
+</body>
+</html>
