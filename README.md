@@ -1,2 +1,2 @@
-# Analyzer
-Advanced AI  Paranormal Evidence Analyzer and Community Collaboration 
+The Ghost Link 
+Haunted location and Paranormal Team Community 
